@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<h2 th:text="${msg}"></h2>
+	<a th:href="@{/}">Home</a>
+	<hr>
+	
+	<fieldset>
+	<legend>Formulário de cadastro</legend>
+		<form action="#" th:action="@{/gravarVenda}" th:object="${produto}" method="post">
+			
+			<input type="text" th:field="*{usuario.id}" placeholder="id do usuario"><br><br>
+			<input type="text" th:field="*{nome}" placeholder="nome do produto"><br><br>
+			<input type="text" th:field="*{preco}" placeholder="preco"><br><br>
+			
+			<select th:field=*{categoria}>
+				<option th:text="'Celular'" th:value="'Celular'"></option>
+				<option th:text="'Video game'" th:value="'Video game'"></option>
+			</select>
+			
+			<button type="submit">Gravar</button>
+		</form>
+	</fieldset>
+
+</body>
+</html>

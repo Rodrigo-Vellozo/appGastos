@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<title>Home</title>
+</head>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.0/css/bootstrap.min.css" integrity="sha384-PDle/QlgIONtM1aqA2Qemk5gPOE7wFq8+Em+G/hmo5Iq0CCmYZLv3fVRDJ4MMwEA" crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.0/js/bootstrap.min.js" integrity="sha384-7aThvCh9TypR7fIc2HV4O/nFMVCBwyIUKL8XCtKE+8xgCgl/PQGuFsvShjr74PBp" crossorigin="anonymous"></script>	
+
+<body style="background-color:#f4f6f7">
+	<div style="background-color:#00CED1;height:50px;" class="text-secondary">
+		<h2 th:text="${usuario.nome}" style="text-align: center;"></h2>
+		<p th:text="${usuario.id}">
+	</div>
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-sm-4">
+				<fieldset>
+					<legend style="text-align: center;">Gastar Grana$$</legend>
+					<form action="#" th:action="@{/gravarVenda}" th:object="${produto}" method="post">
+
+						<input type="text" th:field="*{usuario.id}" th:value="${usuario.id}" class="form-control">
+						<input type="text" th:field="*{nome}" placeholder="nome do produto" class="form-control mt-2">
+						<input type="text" th:field="*{preco}" placeholder="preco" class="form-control mt-2">
+
+						<select th:field=*{categoria} class="form-control mt-2">
+							<option th:text="'ENTRETENIMENTO'" th:value="'Entretenimento'"></option>
+							<option th:text="'SAUDE'" th:value="'Saúde'"></option>
+							<option th:text="'EDUCACAO'" th:value="'Educação'"></option>
+							<option th:text="'ALIMENTACAO'" th:value="'Alimentacao'"></option>
+							<option th:text="'TRANSSPORTE'" th:value="'Transporte'"></option>
+						</select>
+						<button type="submit" class="btn btn-primary mt-2">Gravar</button>
+					</form>
+				</fieldset>
+			</div>
+			<div class="col-sm mt-2">
+				<table class="table table-striped">
+					<tr>
+						<th>Nome</th>
+						<th>Preco</th>
+						<th>Categoria</th>
+						<th>Data</th>
+					</tr>
+					<tr th:each="item: ${produtos}">
+						<td th:text="${item.nome}"></td>
+						<td th:text="${item.preco}"></td>
+						<td th:text="${item.categoria}"></td>
+						<td th:text="${item.dataCadastro}"></td>
+					</tr>
+				</table>
+			</div>
+
+		</div>
+		<hr>
+		
+
+		
+		
+
+
+
+		<!-- Content Row -->
+		<div class="row mt-3">
+		
+
+			<!-- Earnings (Monthly) Card Example -->
+			<div class="col-xl-3 col-md-6 mb-4">
+				<div class="card border-left-primary shadow h-100 py-2">
+					<div class="card-body">
+						<div class="row no-gutters align-items-center">
+							<div class="col mr-2">
+								<div
+									class="text-xs font-weight-bold text-primary text-uppercase mb-1">Earnings
+									(Monthly)</div>
+								<div class="h5 mb-0 font-weight-bold text-gray-800">$40,000</div>
+							</div>
+							<div class="col-auto">
+								<i class="fas fa-calendar fa-2x text-gray-300"></i>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- Earnings (Monthly) Card Example -->
+			<div class="col-xl-3 col-md-6 mb-4">
+				<div class="card border-left-success shadow h-100 py-2">
+					<div class="card-body">
+						<div class="row no-gutters align-items-center">
+							<div class="col mr-2">
+								<div
+									class="text-xs font-weight-bold text-success text-uppercase mb-1">Earnings
+									(Annual)</div>
+								<div class="h5 mb-0 font-weight-bold text-gray-800">$215,000</div>
+							</div>
+							<div class="col-auto">
+								<i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- Earnings (Monthly) Card Example -->
+			<div class="col-xl-3 col-md-6 mb-4">
+				<div class="card border-left-info shadow h-100 py-2">
+					<div class="card-body">
+						<div class="row no-gutters align-items-center">
+							<div class="col mr-2">
+								<div
+									class="text-xs font-weight-bold text-info text-uppercase mb-1">Tasks</div>
+								<div class="row no-gutters align-items-center">
+									<div class="col-auto">
+										<div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">50%</div>
+									</div>
+									<div class="col">
+										<div class="progress progress-sm mr-2">
+											<div class="progress-bar bg-info" role="progressbar"
+												style="width: 50%" aria-valuenow="50" aria-valuemin="0"
+												aria-valuemax="100"></div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-auto">
+								<i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- Pending Requests Card Example -->
+			<div class="col-xl-3 col-md-6 mb-4">
+				<div class="card border-left-warning shadow h-100 py-2">
+					<div class="card-body">
+						<div class="row no-gutters align-items-center">
+							<div class="col mr-2">
+								<div
+									class="text-xs font-weight-bold text-warning text-uppercase mb-1">Pending
+									Requests</div>
+								<div class="h5 mb-0 font-weight-bold text-gray-800">18</div>
+							</div>
+							<div class="col-auto">
+								<i class="fas fa-comments fa-2x text-gray-300"></i>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+
+</body>
+</html>

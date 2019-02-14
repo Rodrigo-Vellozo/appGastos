@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<h2 th:text="${msg}"></h2>
+	<a th:href="@{/cadastrar}"><button>Cadastrar usuário</button></a>
+	<br>
+	<a th:href="@{/gravarVenda}"><button>Gravar venda</button></a>
+	<br>
+	<a th:href="@{/login}"><button>login</button></a>
+	<hr>
+	
+	<h3 th:text="${usuario}"></h3>
+	
+
+		
+	<h3>users</h3>
+	<table border="1">
+		<tr>
+			<th>Column 1 Heading</th>
+			<th>Column 2 Heading</th>
+		</tr>
+		<tr th:each="item : ${usuarios}">
+			<td th:text="${item.id}"></td>
+			<td th:text="${item.nome}"></td>
+			<td th:text="${item.email}"></td>
+		</tr>
+	</table>
+	
+	<h3>Produtos</h3>
+	<table border="1">
+		<tr>
+			<th>Column 1 Heading</th>
+			<th>Column 2 Heading</th>
+			<th>Column 1 Heading</th>
+			<th>Column 2 Heading</th>
+			<th>Column 1 Heading</th>
+		</tr>
+		<tr th:each="item : ${produtos2}">
+			<td th:text="${item.id}"></td>
+			<td th:text="${item.nome}"></td>
+			<td th:text="${item.preco}"></td>
+			<td th:text="${item.categoria}"></td>
+			<td th:text="${item.usuario.nome}"></td>
+			<td th:text="${item.usuario.email}"></td>
+		</tr>
+	</table>
+	
+	<h3>Produtos novo</h3>
+	<table border="1">
+		<tr>
+			<th>Column 1 Heading</th>
+			<th>Column 2 Heading</th>
+		</tr>
+		<tr th:each="item : ${produtos}">
+			<td th:text="${item.id}"></td>
+			<td th:text="${item.nome}"></td>
+			<td th:text="${item.categoria}"></td>
+		</tr>
+	</table>
+
+
+</body>
+</html>
