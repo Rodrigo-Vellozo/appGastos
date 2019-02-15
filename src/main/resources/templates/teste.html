@@ -1,28 +1,67 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="ISO-8859-1">
-<title>Insert title here</title>
+<meta charset="utf-8">
+<title>Test</title>
 </head>
-<body>
 
-	<h2>teste</h2>
-	<hr>
-	<h3 th:text="${usuario}"></h3>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.0/css/bootstrap.min.css" integrity="sha384-PDle/QlgIONtM1aqA2Qemk5gPOE7wFq8+Em+G/hmo5Iq0CCmYZLv3fVRDJ4MMwEA" crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.0/js/bootstrap.min.js" integrity="sha384-7aThvCh9TypR7fIc2HV4O/nFMVCBwyIUKL8XCtKE+8xgCgl/PQGuFsvShjr74PBp" crossorigin="anonymous"></script>	
 
 
-	<hr>
-	<p th:text="${produtos}"></p>
-	<hr>
-	<tr>
-		<th>Produto</th>
-		<th>Categoria</th>
-	</tr>
-	<tr th:each="item:${produtos}">
-		<td th:text="${item.nome}">Row 1: Col 1</td>
-		<td th:text="${item.categoria}">Row 1: Col 2</td>
-	</tr>
-	</table>
+
+<body style="background-color:#f4f6f7">
+	<div style="background-color:#00CED1;height:50px;" class="text-secondary">
+	</div>
+		
+			<h4>testando</h4>
+			<table class="table table-striped">
+			<tr>
+				<th>Nome</th>
+				<th>Preco</th>
+				<th>Categoria</th>
+				<th>Data</th>
+			</tr>
+			<tr th:each="item: ${page.content}">
+				<td th:text="${item.nome}"></td>
+				<td th:text="${item.preco}"></td>
+				<td th:text="${item.categoria}"></td>
+				<td th:text="${item.dataCadastro}"></td>
+			</tr>
+		</table>
+
+		<div class="pagination justify-content-center">
+			<span th:if="${page.hasPrevious()}" class="page-item">
+				<a th:href="@{/teste(page=${page.number-1},size=${page.size})}" class="page-link">Anterior</a>
+			</span>
+			<th:block th:each="i: ${#numbers.sequence(0, page.totalPages - 1)}">
+				
+				<span th:if="${page.number == i}" class="page-link" style="background: #ccf" >[[${i}+1]]</span>
+				
+				<span th:unless="${page.number == i}">
+					<a th:href="@{/teste(page=${i},size=${page.size})}" class="page-link">[[${i}+1]]</a>
+				</span>
+				
+			</th:block>
+			
+			<span th:if="${page.hasNext()}" class="page-item">
+				<a th:href="@{/teste(page=${page.number+1},size=${page.size})}" class="page-link">Próximo</a>
+			</span>
+		</div>
+		
+		<div>
+			calcular: <p th:text="${page.iterator().getClass()}"></p>
+		</div>
+
+
+
+
+	
+
+
 
 </body>
+
 </html>

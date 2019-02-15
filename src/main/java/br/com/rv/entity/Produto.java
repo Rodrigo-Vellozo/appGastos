@@ -58,8 +58,17 @@ public class Produto implements Serializable {
 		this.dataCadastro = dataCadastro;
 		this.usuario = usuario;
 	}
-
 	
+
+	public Produto(Long id, @NotBlank @Size(min = 2, max = 50) String nome,
+			@NotBlank @Size(min = 2, max = 50) String categoria, Double preco) {
+		super();
+		this.id = id;
+		this.nome = nome;
+		this.categoria = categoria;
+		this.preco = preco;
+	
+	}
 
 	@Override
 	public String toString() {

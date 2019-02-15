@@ -1,15 +1,19 @@
 package br.com.rv.controller;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import br.com.rv.entity.Produto;
@@ -69,7 +73,7 @@ public class UsuarioController {
 //	}
 	
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	public ModelAndView logar(@ModelAttribute Usuario usuario) {
+	public ModelAndView logar(@ModelAttribute Usuario usuario, @PageableDefault(size=4,sort="dataCadastro",direction=Direction.DESC)Pageable pageable) {
 		ModelAndView mv = new ModelAndView("home");
 		mv.addObject("produto", new Produto());
 		
@@ -80,17 +84,38 @@ public class UsuarioController {
 			return new ModelAndView("index");
 		}
 		
+		
 		List<Produto> produtos= new ArrayList<>();
 		uRepository.findById(u.getId()).map(user-> produtos.addAll(user.getProdutos()));
 		mv.addObject("produtos", produtos);
+//		produtos.forEach(System.out::println);
 		
-		produtos.forEach(System.out::println);
+		
+		
+		//////////////////test pagination//////////////////////////////////////
+		List<Produto> listagem = new ArrayList<>();
+		uRepository.findById(1l).map(x->listagem.addAll(x.getProdutos()));
+		
+		Page <Produto> page = pRepository.findAll(pageable);
+		mv.addObject("page", page);
+		page.iterator().getClass();
+//		page.forEach(System.err::println);
+		
+		
+		
+		
+		
+
+		
+		
+		
+		System.out.println("¬¬¬¬¬¬¬¬euuuu¬¬¬¬¬¬¬¬¬¬");
 		
 		return mv;
 	}
 
 	
-	
+	////// CADASTRO DE USUARIO
 	@RequestMapping(value="/cadastrar", method=RequestMethod.GET)
 	public String cadastrarGet(@ModelAttribute("usuario") Usuario usuario) {
 		return "cadastrar";
@@ -100,7 +125,11 @@ public class UsuarioController {
 		uRepository.save(usuario);
 		return "redirect:/";
 	}
+	///// FIM DO CADASTRO DE USUARIO OK
+	
 
+	
+	///// GRAVAR VENDA
 	@RequestMapping(value = "/gravarVenda", method = RequestMethod.GET)
 	public String gravarVendaGet(@ModelAttribute("produto") Produto produto) {
 		return "gravarVenda";
@@ -111,5 +140,14 @@ public class UsuarioController {
 		pRepository.save(produto);
 		return mv;
 	}
-	 
+	///// FIM DO GRAVAR VENDA
+
+	@RequestMapping(value = "/teste", method = RequestMethod.GET)
+	public String getProdutos(@PageableDefault(size = 2, sort="dataCadastro",direction=Direction.DESC) Pageable pageable, Model model) {
+		Page<Produto> page = pRepository.findAll(pageable);
+		model.addAttribute("page", page);		
+		return "teste";
+	}
 }
+
+

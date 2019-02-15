@@ -8,28 +8,39 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.0/js/bootstrap.min.js" integrity="sha384-7aThvCh9TypR7fIc2HV4O/nFMVCBwyIUKL8XCtKE+8xgCgl/PQGuFsvShjr74PBp" crossorigin="anonymous"></script>	
 </head>
-<body>
-	<h2 th:text="${msg}"></h2>
-	<a th:href="@{/}">Home</a>
-	<hr>
+<body style="background-color:#f4f6f7">
+	<div style="background-color:#00CED1;height:50px;" class="text-secondary">
+		
+	</div>
+	<div class="container">
+	
+				<div class="row">
+				<div class="card mt-3">
+					<div class="card-header">
+						<h4>Gastar grana$$</h4>
+					</div>
+					<form action="#" th:action="@{/gravarVenda}" th:object="${produto}" method="post">
+
+						<input type="text" th:field="*{nome}" placeholder="nome do produto" class="form-control mt-2">
+						<input type="text" th:field="*{preco}" placeholder="preco" class="form-control mt-2">
+
+						<select th:field=*{categoria} class="form-control mt-2">
+							<option th:text="'ENTRETENIMENTO'" th:value="'Entretenimento'"></option>
+							<option th:text="'SAUDE'" th:value="'Saúde'"></option>
+							<option th:text="'EDUCACAO'" th:value="'Educação'"></option>
+							<option th:text="'ALIMENTACAO'" th:value="'Alimentacao'"></option>
+							<option th:text="'TRANSSPORTE'" th:value="'Transporte'"></option>
+						</select>
+						<button type="submit" class="btn btn-primary mt-2">Gravar</button>
+					</form>
+				</div>
+				
+			</div>
+	</div>
 	
 	
 	
-	<fieldset>
-	<legend>Formulário de cadastro</legend>
-		<form action="#" th:action="@{/gravarVenda}" th:object="${produto}"  method="post">
-			
-			<input type="text" th:field="*{usuario.id}" placeholder="id do produto"><br><br>
-			<input type="text" th:field="*{nome}" placeholder="nome do produto"><br><br>
-			
-			<select th:field=*{categoria}>
-				<option th:text="'Celular'" th:value="'Celular'"></option>
-				<option th:text="'Video game'" th:value="'Video game'"></option>
-			</select>
-			
-			<button type="submit">Gravar</button>
-		</form>
-	</fieldset>
+	
 
 </body>
 </html>
