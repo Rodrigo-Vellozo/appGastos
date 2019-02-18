@@ -1,7 +1,6 @@
 package br.com.rv.controller;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,12 +36,10 @@ public class UsuarioController {
 		modelAndView.addObject("msg", "Bem vindo ao Sistema");
 		modelAndView.addObject("usuarios", uRepository.findAll());
 		modelAndView.addObject("produtos2", pRepository.findAll());
-		
 		//atenção, código massa! :)
 		List<Produto> produtos = new ArrayList<>();
 		uRepository.findById(1L).map(usuario -> produtos.addAll(usuario.getProdutos()));
 		modelAndView.addObject("produtos", produtos);
-		
 		return modelAndView;
 	}
 	
@@ -51,27 +48,7 @@ public class UsuarioController {
 	public String login(@ModelAttribute("usuario") Usuario usuario) {
 		return "login";
 	}
-//	@RequestMapping(value="/login", method=RequestMethod.POST)
-//	public String logar(@ModelAttribute Usuario usuario, @ModelAttribute("produto")Produto produto) {
-//		ModelMap map = new ModelMap();
-//		
-//		Usuario u = uRepository.findByEmailAndSenha(usuario.getEmail(), usuario.getSenha());
-//		System.err.println(">>>>>>>>>> U cheio: "+u);
-//		
-//		map.addAttribute("logado", u);
-//		
-//		
-//		List<Produto> produtos = new ArrayList<>();
-//		uRepository.findById(1L).map(usu -> produtos.addAll(usu.getProdutos()));
-//		map.addAttribute("produtos", produtos);
-//		
-//		produtos.forEach(System.out::println);
-//		
-//		
-//		return "home";
-//		
-//	}
-	
+
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public ModelAndView logar(@ModelAttribute Usuario usuario, @PageableDefault(size=4,sort="dataCadastro",direction=Direction.DESC)Pageable pageable) {
 		ModelAndView mv = new ModelAndView("home");
@@ -79,75 +56,45 @@ public class UsuarioController {
 		
 		Usuario u = uRepository.findByEmailAndSenha(usuario.getEmail(), usuario.getSenha());
 		mv.addObject("usuario", u);
-		
+				
 		if (u==null) {
 			return new ModelAndView("index");
 		}
 		
-		
 		List<Produto> produtos= new ArrayList<>();
 		uRepository.findById(u.getId()).map(user-> produtos.addAll(user.getProdutos()));
 		mv.addObject("produtos", produtos);
-//		produtos.forEach(System.out::println);
 		
-		
-		
-		//////////////////test pagination//////////////////////////////////////
-		List<Produto> listagem = new ArrayList<>();
-		uRepository.findById(1l).map(x->listagem.addAll(x.getProdutos()));
-		
-		Page <Produto> page = pRepository.findAll(pageable);
-		mv.addObject("page", page);
-		page.iterator().getClass();
-//		page.forEach(System.err::println);
-		
-		
-		
-		
-		
-
-		
-		
-		
-		System.out.println("¬¬¬¬¬¬¬¬euuuu¬¬¬¬¬¬¬¬¬¬");
 		
 		return mv;
 	}
 
 	
-	////// CADASTRO DE USUARIO
 	@RequestMapping(value="/cadastrar", method=RequestMethod.GET)
 	public String cadastrarGet(@ModelAttribute("usuario") Usuario usuario) {
 		return "cadastrar";
 	}
+
 	@RequestMapping(value = "/cadastrar", method = RequestMethod.POST)
 	public String cadastrarPost(@ModelAttribute Usuario usuario) {
 		uRepository.save(usuario);
 		return "redirect:/";
 	}
-	///// FIM DO CADASTRO DE USUARIO OK
 	
-
 	
-	///// GRAVAR VENDA
-	@RequestMapping(value = "/gravarVenda", method = RequestMethod.GET)
-	public String gravarVendaGet(@ModelAttribute("produto") Produto produto) {
-		return "gravarVenda";
-	}
-	@RequestMapping(value = "/gravarVenda", method = RequestMethod.POST)
-	public ModelAndView gravarVenda(@ModelAttribute Produto produto) {
-		ModelAndView mv = new ModelAndView("home");
-		pRepository.save(produto);
-		return mv;
-	}
-	///// FIM DO GRAVAR VENDA
-
+	////////teste paginacao
 	@RequestMapping(value = "/teste", method = RequestMethod.GET)
-	public String getProdutos(@PageableDefault(size = 2, sort="dataCadastro",direction=Direction.DESC) Pageable pageable, Model model) {
+	public String getProdutos(@PageableDefault(size = 4, sort="dataCadastro",direction=Direction.DESC) Pageable pageable, Model model) {
 		Page<Produto> page = pRepository.findAll(pageable);
-		model.addAttribute("page", page);		
+		model.addAttribute("page", page);
+		
+		
+		
+		
+		
+		
+	
+		
 		return "teste";
 	}
 }
-
-

@@ -19,8 +19,8 @@
 					<div class="card-header">
 						<h4>Gastar grana$$</h4>
 					</div>
-					<form action="#" th:action="@{/gravarVenda}" th:object="${produto}" method="post">
-
+					<form action="#" th:action="@{/usuario/{usuarioId}/produto/gravarVenda(usuarioId=${usuarioId})}" th:object="${produto}" method="post">
+						<input id="id" type="hidden" th:field="*{usuario.id}"/>
 						<input type="text" th:field="*{nome}" placeholder="nome do produto" class="form-control mt-2">
 						<input type="text" th:field="*{preco}" placeholder="preco" class="form-control mt-2">
 

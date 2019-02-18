@@ -13,40 +13,17 @@
 <!-- font awesome -->
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
 
+
+
 <body style="background-color:#f4f6f7">
 	<div style="background-color:#00CED1;height:50px;" class="text-secondary">
 		<h2 th:text="${usuario.nome}" style="text-align: center;"></h2>
-		<p th:text="${usuario.id}">
-		
 	</div>
 		
 	<div class="container-fluid">
 		
 		<!-- Content row -->		
 		<div class="row">
-		
-		<!-- formulário para gravar venda 
-			<div class="col-sm-4">
-				<fieldset>
-					<legend style="text-align: center;">Gastar Grana$$</legend>
-					<form action="#" th:action="@{/gravarVenda}" th:object="${produto}" method="post">
-
-						<input type="text" th:field="*{usuario.id}" th:value="${usuario.id}" class="form-control">
-						<input type="text" th:field="*{nome}" placeholder="nome do produto" class="form-control mt-2">
-						<input type="text" th:field="*{preco}" placeholder="preco" class="form-control mt-2">
-
-						<select th:field=*{categoria} class="form-control mt-2">
-							<option th:text="'ENTRETENIMENTO'" th:value="'Entretenimento'"></option>
-							<option th:text="'SAUDE'" th:value="'Saúde'"></option>
-							<option th:text="'EDUCACAO'" th:value="'Educação'"></option>
-							<option th:text="'ALIMENTACAO'" th:value="'Alimentacao'"></option>
-							<option th:text="'TRANSSPORTE'" th:value="'Transporte'"></option>
-						</select>
-						<button type="submit" class="btn btn-primary mt-2">Gravar</button>
-					</form>
-				</fieldset>
-			</div>
-		-->
 
 			<div class="col-sm-2 mt-2" align="center">
 				
@@ -54,7 +31,7 @@
 					src="https://www.artbybagci.com/wp-content/uploads/2017/05/darth-clean.jpg">
 				
 				<div class="row justify-content-center">
-					<a th:href="@{/gravarVenda}" class="btn btn-primary">Incluir registro</a>
+					<a th:href="@{/usuario/{usuarioId}/produto/gravarVenda(usuarioId=${usuario.id})}" class="btn btn-primary">Incluir registro</a>
 				</div>
 			</div>
 			<!-- end col1 -->
@@ -73,7 +50,7 @@
 						<td th:text="${item.preco}"></td>
 						<td th:text="${item.categoria}"></td>
 						<td th:text="${item.dataCadastro}"></td>
-						<td> <button class="btn btn-danger"><i class="fas fa-trash"></i>&nbspExcluir</button></td>
+						<td> <a class="btn btn-danger" th:href="@{/usuario/{usuarioId}/produto/{produtoId}/excluir(usuarioId=${usuario.id},produtoId=${item.id})}"><i class="fas fa-trash"></i>&nbspExcluir</a></td>
 					</tr>
 				</table>
 
@@ -100,11 +77,13 @@
 					<div class="card-body">
 						<div class="row no-gutters align-items-center">
 							<div class="col mr-2">
-								<div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Total Gasto (Monthly)</div>
-								<div class="h5 mb-0 font-weight-bold text-gray-800" ></div>
+									<div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+										Alimentação (Total $)
+									</div>
+								<div class="h5 mb-0 font-weight-bold text-gray-800" >$200</div>
 							</div>
 							<div class="col-auto">
-								<i class="fas fa-calendar fa-2x text-gray-300"></i>
+								<i class="fas fa-chart-area fa-2x text-gray-300"></i>
 							</div>
 						</div>
 					</div>
@@ -123,7 +102,7 @@
 								<div class="h5 mb-0 font-weight-bold text-gray-800">$215,000</div>
 							</div>
 							<div class="col-auto">
-								<i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+								<i class="fas fa-chart-pie fa-2x text-gray-300"></i>
 							</div>
 						</div>
 					</div>
@@ -152,7 +131,7 @@
 								</div>
 							</div>
 							<div class="col-auto">
-								<i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+								<i class="fas fa-chart-area fa-2x text-gray-300"></i>
 							</div>
 						</div>
 					</div>
@@ -165,13 +144,15 @@
 					<div class="card-body">
 						<div class="row no-gutters align-items-center">
 							<div class="col mr-2">
-								<div
-									class="text-xs font-weight-bold text-warning text-uppercase mb-1">Pending
-									Requests</div>
-								<div class="h5 mb-0 font-weight-bold text-gray-800">18</div>
+									<div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Pending
+										Requests
+									</div>
+									<div class="h5 mb-0 font-weight-bold text-gray-800">
+										18
+									</div>
 							</div>
 							<div class="col-auto">
-								<i class="fas fa-comments fa-2x text-gray-300"></i>
+								<i class="fas fa-chart-pie fa-2x text-gray-300"></i>
 							</div>
 						</div>
 					</div>
@@ -180,10 +161,10 @@
 		</div><!-- end rol 2 -->
 	</div><!-- end container-fluid -->
 
-
+	
 
 	
 
 </body>
-
+	
 </html>
