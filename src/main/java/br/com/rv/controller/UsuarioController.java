@@ -11,6 +11,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -50,21 +51,27 @@ public class UsuarioController {
 	}
 
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	public ModelAndView logar(@ModelAttribute Usuario usuario, @PageableDefault(size=4,sort="dataCadastro",direction=Direction.DESC)Pageable pageable) {
+	public String logar(@ModelAttribute("usuario") Usuario usuario) {
 		ModelAndView mv = new ModelAndView("home");
-		mv.addObject("produto", new Produto());
 		
-		Usuario u = uRepository.findByEmailAndSenha(usuario.getEmail(), usuario.getSenha());
-		mv.addObject("usuario", u);
+		Usuario user = uRepository.findByEmailAndSenha(usuario.getEmail(), usuario.getSenha());
+		mv.addObject("usuario", user);
 				
-		if (u==null) {
-			return new ModelAndView("index");
+		if (user==null) {
+			return "";
 		}
+	
+	
+		return "redirect:home";
+	}
+	
+	@RequestMapping(value="/home", method=RequestMethod.GET)
+	public ModelAndView getHome(@ModelAttribute Usuario usuario, @PageableDefault(size=4,sort="dataCadastro",direction=Direction.DESC)Pageable pageable, @PathVariable Long idUsuario) {
+		ModelAndView mv = new ModelAndView("home");
 		
-		List<Produto> produtos= new ArrayList<>();
-		uRepository.findById(u.getId()).map(user-> produtos.addAll(user.getProdutos()));
-		mv.addObject("produtos", produtos);
-		
+		Page<Produto> page = pRepository.findProdutoByUsuarioId(1l, pageable);
+		page.forEach(System.err::println);
+		mv.addObject("page", page);
 		
 		return mv;
 	}
@@ -84,16 +91,28 @@ public class UsuarioController {
 	
 	////////teste paginacao
 	@RequestMapping(value = "/teste", method = RequestMethod.GET)
-	public String getProdutos(@PageableDefault(size = 4, sort="dataCadastro",direction=Direction.DESC) Pageable pageable, Model model) {
-		Page<Produto> page = pRepository.findAll(pageable);
+	public String getProdutos(@PageableDefault(size = 2, sort="dataCadastro",direction=Direction.DESC) Pageable pageable, Model model) {
+		
+		//Page<Produto> page = pRepository.findAll(pageable);
+		//model.addAttribute("page", page);
+		
+		
+		// Optional<Produto> produto = pRepository.findByCategoriaAndUsuarioId("alimentacao", 1l);
+		
+		//List<Produto> produtos = pRepository.findByCategoriaAndUsuarioId("alimentacao", 1l);
+		//produtos.forEach(System.err::println);
+		
+		//	funcionando!!! 
+		//List<Produto>produtos = pRepository.findProdutoByUsuarioId(1l);
+		//produtos.forEach(System.err::println);
+		
+		
+		Page<Produto>page = pRepository.findProdutoByUsuarioId(1l, pageable);
+		//page.forEach(System.err::println);
 		model.addAttribute("page", page);
 		
 		
 		
-		
-		
-		
-	
 		
 		return "teste";
 	}
