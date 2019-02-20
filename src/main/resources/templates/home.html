@@ -18,6 +18,7 @@
 <body style="background-color:#f4f6f7">
 	<div style="background-color:#00CED1;height:50px;" class="text-secondary">
 		<h2 th:text="${usuario.nome}" style="text-align: center;"></h2>
+		<span th:text="${usuario.id}"></span>
 	</div>
 		
 	<div class="container-fluid">
@@ -77,19 +78,21 @@
 		
 
 		
-		<!-- Content Row -->
+		<!-- Row2 -->
 		<div class="row mt-3">
 
-			<!-- Earnings (Monthly) Card Example -->
+			<!-- GASTO TOTAL COM ALIMENTAÇÃO -->
 			<div class="col-xl-3 col-md-6 mb-4">
 				<div class="card border-left-primary shadow h-100 py-2">
 					<div class="card-body">
 						<div class="row no-gutters align-items-center">
 							<div class="col mr-2">
 									<div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-										Alimentação (Total $)
+										Alimentação
 									</div>
-								<div class="h5 mb-0 font-weight-bold text-gray-800" >$200</div>
+								<div class="h5 mb-0 font-weight-bold text-gray-800" >
+									Total R$ <span th:text="${totalAlimentacao}"></span>
+								</div>
 							</div>
 							<div class="col-auto">
 								<i class="fas fa-chart-area fa-2x text-gray-300"></i>
@@ -99,44 +102,44 @@
 				</div><!-- end card -->
 			</div><!-- end column -->
 
-			<!-- Earnings (Monthly) Card Example -->
+			<!-- GASTO TOTAL COM SAÚDE -->
 			<div class="col-xl-3 col-md-6 mb-4">
 				<div class="card border-left-success shadow h-100 py-2">
 					<div class="card-body">
 						<div class="row no-gutters align-items-center">
 							<div class="col mr-2">
-								<div
-									class="text-xs font-weight-bold text-success text-uppercase mb-1">Earnings
-									(Annual)</div>
-								<div class="h5 mb-0 font-weight-bold text-gray-800">$215,000</div>
+								<div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+									Saúde (Total R$)
+								</div>
+								<div class="h5 mb-0 font-weight-bold text-gray-800">
+									R$<span th:text="${totalSaude}"></span>
+								</div>
 							</div>
 							<div class="col-auto">
 								<i class="fas fa-chart-pie fa-2x text-gray-300"></i>
 							</div>
 						</div>
 					</div>
-				</div>
-			</div>
+				</div><!-- end card -->
+			</div><!-- end column -->
+			
 
-			<!-- Earnings (Monthly) Card Example -->
+			<!-- GASTO TOTAL COM EDUCACAO -->
 			<div class="col-xl-3 col-md-6 mb-4">
 				<div class="card border-left-info shadow h-100 py-2">
 					<div class="card-body">
 						<div class="row no-gutters align-items-center">
 							<div class="col mr-2">
-								<div
-									class="text-xs font-weight-bold text-info text-uppercase mb-1">Tasks</div>
-								<div class="row no-gutters align-items-center">
-									<div class="col-auto">
-										<div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">50%</div>
+									<div
+										class="text-xs font-weight-bold text-info text-uppercase mb-1">Educação
 									</div>
-									<div class="col">
-										<div class="progress progress-sm mr-2">
-											<div class="progress-bar bg-info" role="progressbar"
-												style="width: 50%" aria-valuenow="50" aria-valuemin="0"
-												aria-valuemax="100"></div>
+									<div class="row no-gutters align-items-center">
+									<div class="col-auto">
+										<div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">
+											Total R$<span th:text="${totalEducacao}"></span>
 										</div>
 									</div>
+									
 								</div>
 							</div>
 							<div class="col-auto">
@@ -144,20 +147,20 @@
 							</div>
 						</div>
 					</div>
-				</div>
-			</div>
+				</div><!-- end card -->
+			</div><!-- end column -->
 
-			<!-- Pending Requests Card Example -->
+			<!-- GASTO TOTAL COM ENTRETENIMENTO -->
 			<div class="col-xl-3 col-md-6 mb-4">
 				<div class="card border-left-warning shadow h-100 py-2">
 					<div class="card-body">
 						<div class="row no-gutters align-items-center">
 							<div class="col mr-2">
-									<div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Pending
-										Requests
+									<div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+										Entretenimento
 									</div>
 									<div class="h5 mb-0 font-weight-bold text-gray-800">
-										18
+										Total R$<span th:text="${totalEntretenimento}"></span>
 									</div>
 							</div>
 							<div class="col-auto">
@@ -165,14 +168,16 @@
 							</div>
 						</div>
 					</div>
-				</div>
-			</div>
-		</div><!-- end rol 2 -->
+				</div><!-- end card -->
+			</div><!-- end column -->
+			
+			
+		</div><!-- end Row2 -->
 	</div><!-- end container-fluid -->
 
-	
 
 	
+
 
 </body>
 	

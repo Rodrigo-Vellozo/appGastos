@@ -14,3 +14,5 @@ Gráfico sem jQuery (me procurar para validar)
 MVC
 Separação em camadas (MVC, repositório, serviço)
 Usar tecnologias padrão para validação, acesso a dados e segurança (Bean Validation, JPA, etc)
+
+SET @@global.time_zone = '+3:00';

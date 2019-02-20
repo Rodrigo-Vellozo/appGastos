@@ -14,13 +14,14 @@ public interface ProdutoRepository extends JpaRepository<Produto, Long> {
 	
 	
 	Page<Produto> findAll(Pageable pageable);
+	List<Produto> findProdutoByUsuarioId(Long usuarioId);
+	Page<Produto> findProdutoByUsuarioId(Long usuarioId, Pageable pageable);
 	
 	// Optional<Produto> findByCategoriaAndUsuarioId(String categoria, Long usuarioId); retorna mais de um registro
-	
 	//List<Produto> findByCategoriaAndUsuarioId(String categoria, Long usuarioId);
 	
-	List<Produto> findProdutoByUsuarioId(Long usuarioId);
+	List<Produto> findProdutoByCategoriaAndUsuarioId(String categoria, Long usuarioId);
 	
-	Page<Produto>findProdutoByUsuarioId(Long usuarioId, Pageable pageable);
 	
+
 }
