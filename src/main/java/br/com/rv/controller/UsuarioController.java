@@ -1,7 +1,6 @@
 package br.com.rv.controller;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +23,6 @@ import br.com.rv.entity.repository.ProdutoRepository;
 import br.com.rv.entity.repository.UsuarioRepository;
 
 @Controller
-
 public class UsuarioController {
 	
 	@Autowired
@@ -32,7 +30,6 @@ public class UsuarioController {
 	
 	@Autowired
 	ProdutoRepository pRepository;
-	
 		
 	@RequestMapping(value="/",method=RequestMethod.GET)
 	public ModelAndView index() {
@@ -130,9 +127,39 @@ public class UsuarioController {
 	////////teste paginacao
 	@RequestMapping(value = "/teste", method = RequestMethod.GET)
 	public String getProdutos(@PageableDefault(size = 2, sort="dataCadastro",direction=Direction.DESC) Pageable pageable, Model model) {
+
+		// total gasto com alimentação
+		List<Produto> totalAlimentacao = pRepository.findProdutoByCategoriaAndUsuarioId("alimentacao", 1l);
+		List<Double> listaAlimentacao = new ArrayList<>();
+		for (Produto alimentacao : totalAlimentacao) {
+			listaAlimentacao.add(alimentacao.getPreco());
+		}
+		//listagem >>> total gasto com saude
+		List<Produto> totalSaude = pRepository.findProdutoByCategoriaAndUsuarioId("saude", 1l);
+		List<Double> listaSaude = new ArrayList<>();
+		for (Produto saude : totalSaude) {
+			listaSaude.add(saude.getPreco());
+		}
 		
-				
+		// lisatagem >>> total gasto com entretenimento
+		List<Produto> totalEntretenimento = pRepository.findProdutoByCategoriaAndUsuarioId("entretenimento", 1l);
+		List<Double> listaEntretenimento = new ArrayList<>();
+		for (Produto entretenimento : totalEntretenimento) {
+			listaEntretenimento.add(entretenimento	.getPreco());
+		}
 		
+		// listagem total gasto com educação
+		List<Produto> totalEducacao = pRepository.findProdutoByCategoriaAndUsuarioId("educacao", 1l);
+		List<Double> listaEducacao = new ArrayList<>();
+		for (Produto educacao : totalEducacao) {
+			listaEducacao.add(educacao.getPreco());
+		}
+			
+		model.addAttribute("totalAlimentacao", new Aggregates().sum(listaAlimentacao));
+		model.addAttribute("totalSaude", new Aggregates().sum(listaSaude));
+		model.addAttribute("totalEntretenimento", new Aggregates().sum(listaEntretenimento));
+		model.addAttribute("totalEducacao", new Aggregates().sum(listaEducacao));
+
 		
 		
 		return "teste";
