@@ -11,6 +11,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -68,9 +69,6 @@ public class UsuarioController {
 	public ModelAndView getHome(@ModelAttribute Usuario usuario, @PageableDefault(size=4,sort="dataCadastro",direction=Direction.DESC)Pageable pageable, Model model) {
 		ModelAndView mv = new ModelAndView("home");
 		
-		System.out.println();
-		System.out.println(model);
-		
 		// paginacão
 		Page<Produto> page = pRepository.findProdutoByUsuarioId(1l, pageable);
 		mv.addObject("page", page);
@@ -125,15 +123,33 @@ public class UsuarioController {
 	
 	
 	////////teste paginacao
-	@RequestMapping(value = "/teste", method = RequestMethod.GET)
-	public String getProdutos(@PageableDefault(size = 2, sort="dataCadastro",direction=Direction.DESC) Pageable pageable, Model model) {
-
+	@RequestMapping(value = "{usuarioId}/{categoria}/teste", method = RequestMethod.GET)
+	public String getProdutos(@PageableDefault(size = 2, sort="dataCadastro",direction=Direction.DESC) Pageable pageable, Model model,
+								@PathVariable("usuarioId")Long usuarioId,
+								@PathVariable("categoria") String categoria) {
+		
+		
+		List<Produto> lst = pRepository.findProdutoByCategoriaAndUsuarioId(categoria, usuarioId);
+		
+		model.addAttribute("listaB", lst);
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		// total gasto com alimentação
 		List<Produto> totalAlimentacao = pRepository.findProdutoByCategoriaAndUsuarioId("alimentacao", 1l);
 		List<Double> listaAlimentacao = new ArrayList<>();
 		for (Produto alimentacao : totalAlimentacao) {
 			listaAlimentacao.add(alimentacao.getPreco());
 		}
+		
 		//listagem >>> total gasto com saude
 		List<Produto> totalSaude = pRepository.findProdutoByCategoriaAndUsuarioId("saude", 1l);
 		List<Double> listaSaude = new ArrayList<>();
@@ -160,8 +176,6 @@ public class UsuarioController {
 		model.addAttribute("totalEntretenimento", new Aggregates().sum(listaEntretenimento));
 		model.addAttribute("totalEducacao", new Aggregates().sum(listaEducacao));
 
-		
-		
 		return "teste";
 	}
 }

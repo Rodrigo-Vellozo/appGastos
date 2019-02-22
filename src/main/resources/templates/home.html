@@ -45,13 +45,15 @@
 						<th>Categoria</th>
 						<th>Data</th>
 						<th>Excluir</th>
+						<th>Teste</th>
 					</tr>
 					<tr th:each="item: ${page.content}">
 						<td th:text="${item.nome}"></td>
 						<td th:text="${item.preco}"></td>
 						<td th:text="${item.categoria}"></td>
-						<td th:text="${item.dataCadastro}"></td>
+						<td th:text="${#dates.format(item.dataCadastro,'dd MMMM yyyy - HH:mm:ss')}"> </td>
 						<td> <a class="btn btn-danger" th:href="@{/usuario/{usuarioId}/produto/{produtoId}/excluir(usuarioId=${usuario.id},produtoId=${item.id})}"><i class="fas fa-trash"></i>&nbspExcluir</a></td>
+						<td> <a class="btn btn-warning" th:href="@{/{usuarioId}/{categoria}/teste(usuarioId=${usuario.id}, categoria=${item.categoria})}"><i class="fas fa-chart-pie"></i>&nbspTeste</a></td>
 					</tr>
 				</table>
 
@@ -109,10 +111,10 @@
 						<div class="row no-gutters align-items-center">
 							<div class="col mr-2">
 								<div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-									Saúde (Total R$)
+									Saúde
 								</div>
 								<div class="h5 mb-0 font-weight-bold text-gray-800">
-									R$<span th:text="${totalSaude}"></span>
+									Total R$ <span th:text="${totalSaude}"></span>
 								</div>
 							</div>
 							<div class="col-auto">
@@ -136,7 +138,7 @@
 									<div class="row no-gutters align-items-center">
 									<div class="col-auto">
 										<div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">
-											Total R$<span th:text="${totalEducacao}"></span>
+											Total R$ <span th:text="${totalEducacao}"></span>
 										</div>
 									</div>
 									
@@ -160,7 +162,7 @@
 										Entretenimento
 									</div>
 									<div class="h5 mb-0 font-weight-bold text-gray-800">
-										Total R$<span th:text="${totalEntretenimento}"></span>
+										Total R$ <span th:text="${totalEntretenimento}"></span>
 									</div>
 							</div>
 							<div class="col-auto">
