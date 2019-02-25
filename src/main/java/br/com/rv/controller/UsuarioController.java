@@ -70,32 +70,32 @@ public class UsuarioController {
 		ModelAndView mv = new ModelAndView("home");
 		
 		// paginacão
-		Page<Produto> page = pRepository.findProdutoByUsuarioId(1l, pageable);
+		Page<Produto> page = pRepository.findProdutoByUsuarioId(usuario.getId(), pageable);
 		mv.addObject("page", page);
 		
 		// total gasto com alimentação
-		List<Produto> totalAlimentacao= pRepository.findProdutoByCategoriaAndUsuarioId("alimentacao", 1l);
+		List<Produto> totalAlimentacao= pRepository.findProdutoByCategoriaAndUsuarioId("alimentacao", usuario.getId());
 		List<Double>listaAlimentacao = new ArrayList<>();
 		for (Produto alimentacao : totalAlimentacao) {
 			listaAlimentacao.add(alimentacao.getPreco());
 		}
 		
 		//listagem >>> total gasto com saude
-		List<Produto> totalSaude = pRepository.findProdutoByCategoriaAndUsuarioId("saude", 1l);
+		List<Produto> totalSaude = pRepository.findProdutoByCategoriaAndUsuarioId("saude", usuario.getId());
 		List<Double> listaSaude = new ArrayList<>();
 		for (Produto saude : totalSaude) {
 			listaSaude.add(saude.getPreco());
 		}
 		
 		// lisatagem >>> total gasto com entretenimento
-		List<Produto> totalEntretenimento = pRepository.findProdutoByCategoriaAndUsuarioId("entretenimento", 1l);
+		List<Produto> totalEntretenimento = pRepository.findProdutoByCategoriaAndUsuarioId("entretenimento", usuario.getId());
 		List<Double> listaEntretenimento = new ArrayList<>();
 		for (Produto entretenimento : totalEntretenimento) {
 			listaEntretenimento.add(entretenimento	.getPreco());
 		}
 		
 		// listagem total gasto com educação
-		List<Produto> totalEducacao = pRepository.findProdutoByCategoriaAndUsuarioId("educacao", 1l);
+		List<Produto> totalEducacao = pRepository.findProdutoByCategoriaAndUsuarioId("educacao", usuario.getId());
 		List<Double> listaEducacao = new ArrayList<>();
 		for (Produto educacao : totalEducacao) {
 			listaEducacao.add(educacao.getPreco());
@@ -118,11 +118,11 @@ public class UsuarioController {
 	@RequestMapping(value = "/cadastrar", method = RequestMethod.POST)
 	public String cadastrarPost(@ModelAttribute Usuario usuario) {
 		uRepository.save(usuario);
-		return "redirect:/";
+		return "redirect:login";
 	}
 	
 	
-	////////teste paginacao
+	////////teste grafico
 	@RequestMapping(value = "{usuarioId}/{categoria}/teste", method = RequestMethod.GET)
 	public String getProdutos(@PageableDefault(size = 2, sort="dataCadastro",direction=Direction.DESC) Pageable pageable, Model model,
 								@PathVariable("usuarioId")Long usuarioId,
@@ -136,36 +136,29 @@ public class UsuarioController {
 		
 		
 		
-		
-		
-		
-		
-		
-		
-		
 		// total gasto com alimentação
-		List<Produto> totalAlimentacao = pRepository.findProdutoByCategoriaAndUsuarioId("alimentacao", 1l);
+		List<Produto> totalAlimentacao = pRepository.findProdutoByCategoriaAndUsuarioId("alimentacao", usuarioId);
 		List<Double> listaAlimentacao = new ArrayList<>();
 		for (Produto alimentacao : totalAlimentacao) {
 			listaAlimentacao.add(alimentacao.getPreco());
 		}
 		
 		//listagem >>> total gasto com saude
-		List<Produto> totalSaude = pRepository.findProdutoByCategoriaAndUsuarioId("saude", 1l);
+		List<Produto> totalSaude = pRepository.findProdutoByCategoriaAndUsuarioId("saude", usuarioId);
 		List<Double> listaSaude = new ArrayList<>();
 		for (Produto saude : totalSaude) {
 			listaSaude.add(saude.getPreco());
 		}
 		
 		// lisatagem >>> total gasto com entretenimento
-		List<Produto> totalEntretenimento = pRepository.findProdutoByCategoriaAndUsuarioId("entretenimento", 1l);
+		List<Produto> totalEntretenimento = pRepository.findProdutoByCategoriaAndUsuarioId("entretenimento", usuarioId);
 		List<Double> listaEntretenimento = new ArrayList<>();
 		for (Produto entretenimento : totalEntretenimento) {
 			listaEntretenimento.add(entretenimento	.getPreco());
 		}
 		
 		// listagem total gasto com educação
-		List<Produto> totalEducacao = pRepository.findProdutoByCategoriaAndUsuarioId("educacao", 1l);
+		List<Produto> totalEducacao = pRepository.findProdutoByCategoriaAndUsuarioId("educacao", usuarioId);
 		List<Double> listaEducacao = new ArrayList<>();
 		for (Produto educacao : totalEducacao) {
 			listaEducacao.add(educacao.getPreco());

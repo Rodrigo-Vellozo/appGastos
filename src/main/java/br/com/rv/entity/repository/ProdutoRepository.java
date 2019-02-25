@@ -23,4 +23,7 @@ public interface ProdutoRepository extends JpaRepository<Produto, Long> {
 	List<Produto> findProdutoByCategoriaAndUsuarioId(String categoria, Long usuarioId);
 	
 	
+	
+	
+	
 }

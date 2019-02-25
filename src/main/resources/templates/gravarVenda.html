@@ -14,29 +14,49 @@
 	</div>
 	<div class="container">
 	
-				<div class="row">
-				<div class="card mt-3">
-					<div class="card-header">
-						<h4>Gastar grana$$</h4>
-					</div>
-					<form action="#" th:action="@{/usuario/{usuarioId}/produto/gravarVenda(usuarioId=${usuarioId})}" th:object="${produto}" method="post">
-						<input id="id" type="hidden" th:field="*{usuario.id}"/>
-						<input type="text" th:field="*{nome}" placeholder="nome do produto" class="form-control mt-2">
-						<input type="text" th:field="*{preco}" placeholder="preco" class="form-control mt-2">
+			<div class="row 1">
 
-						<select th:field=*{categoria} class="form-control mt-2">
-							<option th:text="'ENTRETENIMENTO'" th:value="'Entretenimento'"></option>
-							<option th:text="'SAUDE'" th:value="'Saúde'"></option>
-							<option th:text="'EDUCACAO'" th:value="'Educação'"></option>
-							<option th:text="'ALIMENTACAO'" th:value="'Alimentacao'"></option>
-							<option th:text="'TRANSSPORTE'" th:value="'Transporte'"></option>
-						</select>
-						<button type="submit" class="btn btn-primary mt-2">Gravar</button>
-					</form>
+				
+				<div class="card mt-5 border-info img-fluid bg-light" style="width: 100rem;">
+					
+					<div class="card-header border-info">
+						<h4 th:text="Gastar" class="text-center"></h4>
+					</div>
+					<div class="card-body text-info" style="background-image: url('https://st.depositphotos.com/2279597/4585/i/950/depositphotos_45855565-stock-photo-seamless-background-made-of-dollar.jpg');">
+						<div class="row">
+							<div class="col-md-6">
+								<form action="#" th:action="@{/usuario/{usuarioId}/produto/gravarVenda(usuarioId=${usuarioId})}" th:object="${produto}" method="post">
+									<input id="id" type="hidden" th:field="*{usuario.id}"/>
+									<input type="text" th:field="*{nome}" placeholder="nome do produto" class="form-control mt-2">
+									<input type="number" th:field="*{preco}" placeholder="preco" class="form-control mt-2">
+									
+									<select th:field=*{categoria} class="form-control mt-2">
+										<option th:text="'ENTRETENIMENTO'" th:value="'Entretenimento'"></option>
+										<option th:text="'SAUDE'" th:value="'Saúde'"></option>
+										<option th:text="'EDUCACAO'" th:value="'Educação'"></option>
+										<option th:text="'ALIMENTACAO'" th:value="'Alimentacao'"></option>
+									</select>
+									<button type="submit" class="btn btn-primary mt-2 btn-block">Gravar</button>
+
+
+
+							</form>
+							</div>
+							
+							<div class="col-md-4 mx-auto d-block">
+								<figure>
+									<img class="img-fluid img-thumbnail rounded"   src="https://www.mazettoseguros.com.br/blog/wp-content/uploads/2016/12/o-que-acontece-se-eu-atrasar-o-seguro.png">
+								</figure>
+							</div>
+						</div>					
+						
+					</div>
+					
 				</div>
 				
-			</div>
-	</div>
+			</div><!-- end row 1 -->
+
+	</div><!-- end container -->
 	
 	
 	

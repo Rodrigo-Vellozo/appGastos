@@ -17,8 +17,8 @@
 
 <body style="background-color:#f4f6f7">
 	<div style="background-color:#00CED1;height:50px;" class="text-secondary">
-		<h2 th:text="${usuario.nome}" style="text-align: center;"></h2>
-		<span th:text="${usuario.id}"></span>
+			<h2 th:text="${usuario.nome}" style="text-align: center;"></h2>
+		
 	</div>
 		
 	<div class="container-fluid">
@@ -59,28 +59,25 @@
 
 				<div class="pagination justify-content-center">
 					<span th:if="${page.hasPrevious()}" class="page-item">
-						<a th:href="@{/home(page=${page.number-1},size=${page.size})}" class="page-link">Anterior</a>
+						<a th:href="@{/home(page=${page.number-1},size=${page.size},id=${usuario.id})}" class="page-link">Anterior</a>
 					</span>
 					<th:block th:each="i: ${#numbers.sequence(0, page.totalPages - 1)}">
 						<span th:if="${page.number == i}" class="page-link" style="background: #ccf">[[${i}+1]]</span>
-
 						<span th:unless="${page.number == i}">
-							<a th:href="@{/home(page=${i},size=${page.size})}" class="page-link">[[${i}+1]]</a>
+							<a th:href="@{/home(page=${i},size=${page.size},id=${usuario.id})}" class="page-link">[[${i}+1]]</a>
 						</span>
 					</th:block>
 					<span th:if="${page.hasNext()}" class="page-item">
-						<a th:href="@{/home(page=${page.number+1},size=${page.size})}"	class="page-link">Próximo</a>
+						<a th:href="@{/home(page=${page.number+1},size=${page.size},id=${usuario.id})}"	class="page-link">Próximo</a>
 					</span>
-				</div>
+				</div><!-- end paginação -->
+				
 			</div><!-- end  column 2 (coluna da tabela) -->
 		</div><!-- end rol 1 -->
 
 
-
-		
-
-		
-		<!-- Row2 -->
+	<!-- Row2 -->
+	<footer class="fixed-bottom">
 		<div class="row mt-3">
 
 			<!-- GASTO TOTAL COM ALIMENTAÇÃO -->
@@ -97,7 +94,7 @@
 								</div>
 							</div>
 							<div class="col-auto">
-								<i class="fas fa-chart-area fa-2x text-gray-300"></i>
+									<i class="fas fa-chart-area fa-2x text-gray-300"></i>
 							</div>
 						</div>
 					</div>
@@ -175,6 +172,7 @@
 			
 			
 		</div><!-- end Row2 -->
+	</footer>
 	</div><!-- end container-fluid -->
 
 

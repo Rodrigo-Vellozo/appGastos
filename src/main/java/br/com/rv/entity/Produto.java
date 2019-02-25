@@ -37,7 +37,7 @@ public class Produto implements Serializable {
 	private Double preco;
 	
 	@Temporal(TemporalType.TIMESTAMP)
-	private Date dataCadastro= new Date();
+	private Date dataCadastro = new Date();
 	
 	@ManyToOne
 	@JoinColumn(name="id_usuario_fk")
