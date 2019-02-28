@@ -1,21 +1,25 @@
 package br.com.rv.controller;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.thymeleaf.expression.Aggregates;
 
 import br.com.rv.entity.Produto;
@@ -32,70 +36,62 @@ public class UsuarioController {
 	@Autowired
 	ProdutoRepository pRepository;
 		
-	@RequestMapping(value="/",method=RequestMethod.GET)
-	public ModelAndView index() {
-		ModelAndView modelAndView = new ModelAndView("index");
-		modelAndView.addObject("msg", "Bem vindo ao Sistema");
-		modelAndView.addObject("usuarios", uRepository.findAll());
-		modelAndView.addObject("produtos2", pRepository.findAll());
-		//atenção, código massa! :)
-		List<Produto> produtos = new ArrayList<>();
-		uRepository.findById(1L).map(usuario -> produtos.addAll(usuario.getProdutos()));
-		modelAndView.addObject("produtos", produtos);
-		return modelAndView;
-	}
 	
-	//tela do login furado
 	@RequestMapping(value="/login", method=RequestMethod.GET)
 	public String login(@ModelAttribute("usuario") Usuario usuario) {
 		return "login";
 	}
+	
+	@RequestMapping(value="/register", method=RequestMethod.GET)
+	public String registerGet(@ModelAttribute("usuario") Usuario usuario) {
+		return "register";
+	}
 
-	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	public String logar(@ModelAttribute("usuario") Usuario usuario, RedirectAttributes attr) {
-		Usuario user = uRepository.findByEmailAndSenha(usuario.getEmail(), usuario.getSenha());
-				
-		if (user==null) {
-			return "redirect:login";
+	@RequestMapping(value ="/register", method=RequestMethod.POST)
+	public String registerPost(@Valid @ModelAttribute Usuario usuario, BindingResult result) {
+		usuario.setPassword(new BCryptPasswordEncoder().encode(usuario.getPassword()));
+		if (result.hasErrors()) {
+			return "register";
 		}
-		
-		attr.addAttribute("usuario",user);
-		attr.addFlashAttribute("usuario", user);
-		
-		return "redirect:home";
+		uRepository.save(usuario);
+		return "redirect:login";
 	}
 	
-	@RequestMapping(value="/home", method=RequestMethod.GET)
-	public ModelAndView getHome(@ModelAttribute Usuario usuario, @PageableDefault(size=4,sort="dataCadastro",direction=Direction.DESC)Pageable pageable, Model model) {
+	@RequestMapping(value="/", method=RequestMethod.GET)
+	public ModelAndView getHome(Principal principal, @PageableDefault(size=4,sort="dataCadastro",direction=Direction.DESC)Pageable pageable, Model model) {
 		ModelAndView mv = new ModelAndView("home");
 		
-		// paginacão
-		Page<Produto> page = pRepository.findProdutoByUsuarioId(usuario.getId(), pageable);
-		mv.addObject("page", page);
+		Usuario u = uRepository.findByUsername(principal.getName());
+		mv.addObject("nome", u.getNome());
+		mv.addObject("id",u.getId());
 		
+		// paginacão
+		Page<Produto> page = pRepository.findProdutoByUsuarioId(u.getId(), pageable);
+		mv.addObject("page", page);
+	
 		// total gasto com alimentação
-		List<Produto> totalAlimentacao= pRepository.findProdutoByCategoriaAndUsuarioId("alimentacao", usuario.getId());
+		List<Produto> totalAlimentacao= pRepository.findProdutoByCategoriaAndUsuarioId("alimentacao", u.getId());
 		List<Double>listaAlimentacao = new ArrayList<>();
 		for (Produto alimentacao : totalAlimentacao) {
 			listaAlimentacao.add(alimentacao.getPreco());
 		}
 		
 		//listagem >>> total gasto com saude
-		List<Produto> totalSaude = pRepository.findProdutoByCategoriaAndUsuarioId("saude", usuario.getId());
+		List<Produto> totalSaude = pRepository.findProdutoByCategoriaAndUsuarioId("saude", u.getId());
 		List<Double> listaSaude = new ArrayList<>();
 		for (Produto saude : totalSaude) {
 			listaSaude.add(saude.getPreco());
 		}
 		
 		// lisatagem >>> total gasto com entretenimento
-		List<Produto> totalEntretenimento = pRepository.findProdutoByCategoriaAndUsuarioId("entretenimento", usuario.getId());
+		List<Produto> totalEntretenimento = pRepository.findProdutoByCategoriaAndUsuarioId("entretenimento", u.getId());
 		List<Double> listaEntretenimento = new ArrayList<>();
 		for (Produto entretenimento : totalEntretenimento) {
 			listaEntretenimento.add(entretenimento	.getPreco());
 		}
 		
 		// listagem total gasto com educação
-		List<Produto> totalEducacao = pRepository.findProdutoByCategoriaAndUsuarioId("educacao", usuario.getId());
+		List<Produto> totalEducacao = pRepository.findProdutoByCategoriaAndUsuarioId("educacao", u.getId());
 		List<Double> listaEducacao = new ArrayList<>();
 		for (Produto educacao : totalEducacao) {
 			listaEducacao.add(educacao.getPreco());
@@ -109,32 +105,22 @@ public class UsuarioController {
 		return mv;
 	}
 
-	
-	@RequestMapping(value="/cadastrar", method=RequestMethod.GET)
-	public String cadastrarGet(@ModelAttribute("usuario") Usuario usuario) {
-		return "cadastrar";
-	}
-
-	@RequestMapping(value = "/cadastrar", method = RequestMethod.POST)
-	public String cadastrarPost(@ModelAttribute Usuario usuario) {
-		uRepository.save(usuario);
-		return "redirect:login";
-	}
-	
-	
+		
 	////////teste grafico
-	@RequestMapping(value = "{usuarioId}/{categoria}/teste", method = RequestMethod.GET)
-	public String getProdutos(@PageableDefault(size = 2, sort="dataCadastro",direction=Direction.DESC) Pageable pageable, Model model,
+	@RequestMapping(value = "{usuarioId}/{categoria}/graficoOne", method = RequestMethod.GET)
+	public String graficoOne(@PageableDefault(size = 2, sort="dataCadastro",direction=Direction.DESC) Pageable pageable, Model model,
 								@PathVariable("usuarioId")Long usuarioId,
-								@PathVariable("categoria") String categoria) {
+								@PathVariable("categoria") String categoria,
+								Principal principal
+								) {
 		
+		Usuario u = uRepository.findByUsername(principal.getName());
+		model.addAttribute("nome", u.getNome());
+		model.addAttribute("id", u.getId());
 		
-		List<Produto> lst = pRepository.findProdutoByCategoriaAndUsuarioId(categoria, usuarioId);
+		List<Produto> lst = pRepository.findProdutoByCategoriaAndUsuarioId(categoria, u.getId());
 		
 		model.addAttribute("listaB", lst);
-		
-		
-		
 		
 		// total gasto com alimentação
 		List<Produto> totalAlimentacao = pRepository.findProdutoByCategoriaAndUsuarioId("alimentacao", usuarioId);
@@ -168,7 +154,7 @@ public class UsuarioController {
 		model.addAttribute("totalSaude", new Aggregates().sum(listaSaude));
 		model.addAttribute("totalEntretenimento", new Aggregates().sum(listaEntretenimento));
 		model.addAttribute("totalEducacao", new Aggregates().sum(listaEducacao));
-
-		return "teste";
+		
+		return "graficoOne";
 	}
 }

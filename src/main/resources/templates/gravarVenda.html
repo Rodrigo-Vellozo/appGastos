@@ -28,7 +28,7 @@
 								<form action="#" th:action="@{/usuario/{usuarioId}/produto/gravarVenda(usuarioId=${usuarioId})}" th:object="${produto}" method="post">
 									<input id="id" type="hidden" th:field="*{usuario.id}"/>
 									<input type="text" th:field="*{nome}" placeholder="nome do produto" class="form-control mt-2">
-									<input type="number" th:field="*{preco}" placeholder="preco" class="form-control mt-2">
+									<input type="number" step="0.01" th:field="*{preco}" placeholder="preco" class="form-control mt-2" required>
 									
 									<select th:field=*{categoria} class="form-control mt-2">
 										<option th:text="'ENTRETENIMENTO'" th:value="'Entretenimento'"></option>

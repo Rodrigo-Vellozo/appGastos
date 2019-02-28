@@ -1,6 +1,7 @@
 package br.com.rv.entity;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -11,12 +12,17 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 @Entity
 @Table(name="usuario")
-public class Usuario implements Serializable {
+public class Usuario implements UserDetails, Serializable {
 	
 	private static final long serialVersionUID = 1L;
 	@Id
@@ -30,57 +36,89 @@ public class Usuario implements Serializable {
 	
 	@NotBlank
 	@Size(min=2, max=80)
-	private String email;
+	@Email(message="Insira um email válido!")
+	private String username;
 	
-	@NotBlank
-	private String senha;
+	@NotNull
+  //@Size(min=6, max=8, message="A senha deve ter de 6 a 8 caracteres!")
+	private String password;
 	
 	@OneToMany(mappedBy="usuario", cascade=CascadeType.ALL)
 	private List<Produto> produtos;
+
 	
-	public Usuario() {
-		
-	}
-	public Usuario(Long id, String nome, String email, String senha) {
-		super();
-		this.id = id;
-		this.nome = nome;
-		this.email = email;
-		this.senha = senha;
-	}
 	@Override
 	public String toString() {
-		return "Usuario [id=" + id + ", nome=" + nome + ", email=" + email + ", senha=" + senha + "]";
+		return "Usuario [id=" + id + ", nome=" + nome + ", username=" + username + ", password=" + password
+				+ ", produtos=" + produtos + "]";
 	}
+
 	public Long getId() {
 		return id;
 	}
+
 	public void setId(Long id) {
 		this.id = id;
 	}
+
 	public String getNome() {
 		return nome;
 	}
+
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
-	public String getEmail() {
-		return email;
-	}
-	public void setEmail(String email) {
-		this.email = email;
-	}
-	public String getSenha() {
-		return senha;
-	}
-	public void setSenha(String senha) {
-		this.senha = senha;
-	}
+
 	public List<Produto> getProdutos() {
 		return produtos;
 	}
+
 	public void setProdutos(List<Produto> produtos) {
 		this.produtos = produtos;
 	}
-	
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getPassword() {
+		return this.password;
+	}
+
+	@Override
+	public String getUsername() {
+		return this.username;
+	}
+
+	@Override
+	public boolean isAccountNonExpired() {
+		return true;
+	}
+
+	@Override
+	public boolean isAccountNonLocked() {
+		return true;
+	}
+
+	@Override
+	public boolean isCredentialsNonExpired() {
+		return true;
+	}
+
+	@Override
+	public boolean isEnabled() {
+		return true;
+	}
+
 }

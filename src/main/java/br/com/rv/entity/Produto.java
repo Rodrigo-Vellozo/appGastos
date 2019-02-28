@@ -13,6 +13,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Entity
@@ -33,7 +34,7 @@ public class Produto implements Serializable {
 	@Size(min=2, max=50)
 	private String categoria;
 	
-	
+	@NotNull
 	private Double preco;
 	
 	@Temporal(TemporalType.TIMESTAMP)

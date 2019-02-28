@@ -4,23 +4,46 @@
 <meta charset="utf-8">
 <title>Home</title>
 </head>
-
+<!-- bootstrap -->
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.0/css/bootstrap.min.css" integrity="sha384-PDle/QlgIONtM1aqA2Qemk5gPOE7wFq8+Em+G/hmo5Iq0CCmYZLv3fVRDJ4MMwEA" crossorigin="anonymous">
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.0/js/bootstrap.min.js" integrity="sha384-7aThvCh9TypR7fIc2HV4O/nFMVCBwyIUKL8XCtKE+8xgCgl/PQGuFsvShjr74PBp" crossorigin="anonymous"></script>	
-
 <!-- font awesome -->
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
 
 
 
 <body style="background-color:#f4f6f7">
-	<div style="background-color:#00CED1;height:50px;" class="text-secondary">
-			<h2 th:text="${usuario.nome}" style="text-align: center;"></h2>
-		
-	</div>
-		
+	<nav class="navbar navbar-expand-lg navbar-dark bg-info">
+		<h1 class="navbar-brand" th:text="${nome}">Nome do Usuario</h1>
+		<button class="navbar-toggler" type="button" data-toggle="collapse"
+			data-target="#navbarSupportedContent"
+			aria-controls="navbarSupportedContent" aria-expanded="false"
+			aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+
+		<div class="collapse navbar-collapse" id="navbarSupportedContent">
+			<ul class="navbar-nav mr-auto">
+				
+				<li class="nav-item dropdown">
+					<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" 
+							role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Relatórios </a>
+					
+					<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+						<a class="dropdown-item" th:href="@{/{usuarioId}/{categoria}/graficoOne(usuarioId=${id})}">Total de gastos</a>
+						
+					</div>
+				</li>
+			</ul>
+			
+			
+			<form th:action="@{/logout}" class="form-inline my-2 my-lg-0">
+				<button class="btn btn-danger my-2 my-sm-0" type="submit">
+					<i class="fas fa-sign-out-alt"></i>&nbspSair
+				</button>
+			</form>
+		</div>
+	</nav>
+
 	<div class="container-fluid">
 		
 		<!-- Content row -->		
@@ -32,7 +55,7 @@
 					src="https://www.artbybagci.com/wp-content/uploads/2017/05/darth-clean.jpg">
 				
 				<div class="row justify-content-center">
-					<a th:href="@{/usuario/{usuarioId}/produto/gravarVenda(usuarioId=${usuario.id})}" class="btn btn-primary">Incluir registro</a>
+					<a th:href="@{/usuario/{usuarioId}/produto/gravarVenda(usuarioId=${id})}" class="btn btn-info">Incluir registro</a>
 				</div>
 			</div><!-- end col1 -->
 
@@ -49,27 +72,38 @@
 					</tr>
 					<tr th:each="item: ${page.content}">
 						<td th:text="${item.nome}"></td>
-						<td th:text="${item.preco}"></td>
+						<td th:text="${#numbers.formatDecimal(item.preco, 2,2)}"></td>
 						<td th:text="${item.categoria}"></td>
 						<td th:text="${#dates.format(item.dataCadastro,'dd MMMM yyyy - HH:mm:ss')}"> </td>
-						<td> <a class="btn btn-danger" th:href="@{/usuario/{usuarioId}/produto/{produtoId}/excluir(usuarioId=${usuario.id},produtoId=${item.id})}"><i class="fas fa-trash"></i>&nbspExcluir</a></td>
-						<td> <a class="btn btn-warning" th:href="@{/{usuarioId}/{categoria}/teste(usuarioId=${usuario.id}, categoria=${item.categoria})}"><i class="fas fa-chart-pie"></i>&nbspTeste</a></td>
+						<td> <a class="btn btn-danger" th:href="@{/usuario/{usuarioId}/produto/{produtoId}/excluir(usuarioId=${id},produtoId=${item.id})}"><i class="fas fa-trash"></i>&nbspExcluir</a></td>
+						<td> <a class="btn btn-warning" th:href="@{/{usuarioId}/{categoria}/graficoOne(usuarioId=${id}, categoria=${item.categoria})}"><i class="fas fa-chart-pie"></i>&nbspTeste</a></td>
 					</tr>
 				</table>
-
+				
+				<!-- PAGINAÇÃO -->
 				<div class="pagination justify-content-center">
+				
 					<span th:if="${page.hasPrevious()}" class="page-item">
-						<a th:href="@{/home(page=${page.number-1},size=${page.size},id=${usuario.id})}" class="page-link">Anterior</a>
+						<a th:href="@{/(page=${page.number-1},size=${page.size},id=${id})}" class="page-link">Anterior</a>
 					</span>
+
+					<div th:if="${page.isEmpty()}" class="alert alert-warning" role="alert">
+						<h5>Não há itens a serem exibidos.</h5>
+					</div>
+
 					<th:block th:each="i: ${#numbers.sequence(0, page.totalPages - 1)}">
-						<span th:if="${page.number == i}" class="page-link" style="background: #ccf">[[${i}+1]]</span>
-						<span th:unless="${page.number == i}">
-							<a th:href="@{/home(page=${i},size=${page.size},id=${usuario.id})}" class="page-link">[[${i}+1]]</a>
+						<span th:if="${!page.isEmpty()}">
+							<span th:if="${page.number == i}" class="page-link" style="background: #ccf">[[${i}+1]]</span>
+							<span th:unless="${page.number == i}">
+								<a th:href="@{/(page=${i},size=${page.size},id=${id})}" class="page-link">[[${i}+1]]</a>
+							</span>
 						</span>
 					</th:block>
+
 					<span th:if="${page.hasNext()}" class="page-item">
-						<a th:href="@{/home(page=${page.number+1},size=${page.size},id=${usuario.id})}"	class="page-link">Próximo</a>
+						<a th:href="@{/(page=${page.number+1},size=${page.size},id=${id})}"	class="page-link">Próximo</a>
 					</span>
+				
 				</div><!-- end paginação -->
 				
 			</div><!-- end  column 2 (coluna da tabela) -->
@@ -90,7 +124,7 @@
 										Alimentação
 									</div>
 								<div class="h5 mb-0 font-weight-bold text-gray-800" >
-									Total R$ <span th:text="${totalAlimentacao}"></span>
+									Total R$ <span th:text="${#numbers.formatDecimal(totalAlimentacao, 2,2)}"></span>
 								</div>
 							</div>
 							<div class="col-auto">
@@ -111,7 +145,7 @@
 									Saúde
 								</div>
 								<div class="h5 mb-0 font-weight-bold text-gray-800">
-									Total R$ <span th:text="${totalSaude}"></span>
+									Total R$ <span th:text="${#numbers.formatDecimal(totalSaude,2,2)}"></span>
 								</div>
 							</div>
 							<div class="col-auto">
@@ -135,7 +169,7 @@
 									<div class="row no-gutters align-items-center">
 									<div class="col-auto">
 										<div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">
-											Total R$ <span th:text="${totalEducacao}"></span>
+											Total R$ <span th:text="${#numbers.formatDecimal(totalEducacao,2,2)}"></span>
 										</div>
 									</div>
 									
@@ -159,7 +193,7 @@
 										Entretenimento
 									</div>
 									<div class="h5 mb-0 font-weight-bold text-gray-800">
-										Total R$ <span th:text="${totalEntretenimento}"></span>
+										Total R$ <span th:text="${#numbers.formatDecimal(totalEntretenimento,2,2)}"></span>
 									</div>
 							</div>
 							<div class="col-auto">
@@ -175,10 +209,8 @@
 	</footer>
 	</div><!-- end container-fluid -->
 
-
-	
-
-
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.0/js/bootstrap.min.js" integrity="sha384-7aThvCh9TypR7fIc2HV4O/nFMVCBwyIUKL8XCtKE+8xgCgl/PQGuFsvShjr74PBp" crossorigin="anonymous"></script>	
 </body>
-	
 </html>

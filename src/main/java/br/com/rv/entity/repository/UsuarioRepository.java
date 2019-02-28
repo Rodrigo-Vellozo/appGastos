@@ -8,7 +8,9 @@ import br.com.rv.entity.Usuario;
 @Repository
 public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
 	
-	Usuario findByEmailAndSenha(String email, String senha);
+	Usuario findByUsernameAndPassword(String username, String password);
+	
+	Usuario findByUsername(String username);
 	
 	//select * from produto p inner join usuario u on p.id_usuario_fk = u.usuario_id where p.id_usuario_fk =1;
 	
