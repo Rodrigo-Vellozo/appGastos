@@ -64,7 +64,7 @@
 				<table class="table table-striped">
 					<tr>
 						<th>Nome</th>
-						<th>Preco</th>
+						<th>Preco R$</th>
 						<th>Categoria</th>
 						<th>Data</th>
 						<th>Excluir</th>
@@ -76,7 +76,7 @@
 						<td th:text="${item.categoria}"></td>
 						<td th:text="${#dates.format(item.dataCadastro,'dd MMMM yyyy - HH:mm:ss')}"> </td>
 						<td> <a class="btn btn-danger" th:href="@{/usuario/{usuarioId}/produto/{produtoId}/excluir(usuarioId=${id},produtoId=${item.id})}"><i class="fas fa-trash"></i>&nbspExcluir</a></td>
-						<td> <a class="btn btn-warning" th:href="@{/{usuarioId}/{categoria}/graficoOne(usuarioId=${id}, categoria=${item.categoria})}"><i class="fas fa-chart-pie"></i>&nbspTeste</a></td>
+						<td> <a class="btn btn-warning" th:href="@{/chart/{categoria}/graficoTwo(categoria=${item.categoria})}"><i class="fas fa-chart-pie"></i></a></td>
 					</tr>
 				</table>
 				

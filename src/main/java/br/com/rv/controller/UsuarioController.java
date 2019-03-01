@@ -105,22 +105,13 @@ public class UsuarioController {
 		return mv;
 	}
 
-		
-	////////teste grafico
 	@RequestMapping(value = "{usuarioId}/{categoria}/graficoOne", method = RequestMethod.GET)
-	public String graficoOne(@PageableDefault(size = 2, sort="dataCadastro",direction=Direction.DESC) Pageable pageable, Model model,
-								@PathVariable("usuarioId")Long usuarioId,
-								@PathVariable("categoria") String categoria,
-								Principal principal
-								) {
+	public String graficoOne(Model model, @PathVariable("usuarioId")Long usuarioId, @PathVariable("categoria") String categoria,
+								Principal principal) {
 		
 		Usuario u = uRepository.findByUsername(principal.getName());
 		model.addAttribute("nome", u.getNome());
 		model.addAttribute("id", u.getId());
-		
-		List<Produto> lst = pRepository.findProdutoByCategoriaAndUsuarioId(categoria, u.getId());
-		
-		model.addAttribute("listaB", lst);
 		
 		// total gasto com alimentação
 		List<Produto> totalAlimentacao = pRepository.findProdutoByCategoriaAndUsuarioId("alimentacao", usuarioId);
@@ -157,4 +148,5 @@ public class UsuarioController {
 		
 		return "graficoOne";
 	}
+	
 }

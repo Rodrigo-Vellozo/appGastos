@@ -47,6 +47,23 @@ public class Usuario implements UserDetails, Serializable {
 	private List<Produto> produtos;
 
 	
+	public Usuario() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+	
+
+	public Usuario(Long id, @NotBlank @Size(min = 2, max = 50) String nome,
+			@NotBlank @Size(min = 2, max = 80) @Email(message = "Insira um email válido!") String username,
+			@NotNull String password, List<Produto> produtos) {
+		super();
+		this.id = id;
+		this.nome = nome;
+		this.username = username;
+		this.password = password;
+		this.produtos = produtos;
+	}
+
 	@Override
 	public String toString() {
 		return "Usuario [id=" + id + ", nome=" + nome + ", username=" + username + ", password=" + password

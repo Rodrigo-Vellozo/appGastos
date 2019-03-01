@@ -2,36 +2,55 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="utf-8">
-<title>Total de Gastos</title>
+<title>Listagem por Categoria</title>
 </head>
-
+<!-- bootstrap -->
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.0/css/bootstrap.min.css" integrity="sha384-PDle/QlgIONtM1aqA2Qemk5gPOE7wFq8+Em+G/hmo5Iq0CCmYZLv3fVRDJ4MMwEA" crossorigin="anonymous">
 <!-- font awesome -->
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
 
  
 <script th:inline="javascript">
-window.onload = function () {
+	window.onload = function() {
+	 
+	var dps = [[]];
 	var chart = new CanvasJS.Chart("chartContainer", {
-		title:{
-			text: "Total das despesas"              
+		animationEnabled: true,
+		exportEnabled: true,
+		title: {
+			text: "Simple Column Chart with Index Labels"
 		},
-		data: [              
-		{
-			// Change type to "doughnut", "line", "splineArea","column",  etc.
-			type: "bar",
-			dataPoints: [
-				{ label: "entretenimento",  y: [[${totalEntretenimento}]]  },
-				{ label: "saúde", y: [[${totalSaude}]]  },
-				{ label: "educação", y: [[${totalEducacao}]]  },
-				{ label: "alimentacao",  y: [[${totalAlimentacao}]]  }
-			]
-		}
-		]
+		data: [{
+			type: "column", //change type to bar, line, area, pie, etc
+			//indexLabel: "{y}", //Shows y value on all Data Points
+			indexLabelFontColor: "#5A5757",
+			dataPoints: dps[0]
+		}]
 	});
+	 
+	var xValue;
+	var yValue;
+	var indexLabel;
+	
+	<th:each="dataPoints, iterStat: ${dataPointsList}" th:class="${iterStat.odd}? 'odd'">	
+		<th:each="dataPoint :${dataPoints}">
+			xValue = parseInt("${#aggregates.sum(dataPoint.preco)}");
+			yValue = parseFloat("${dataPoint.dataCadastro}");
+			indexLabel = "${dataPoint.indexLabel}";
+			dps[parseInt("${loop.index}")].push({
+				x : xValue,
+				y : yValue,
+				indexLabel : indexLabel
+			});		
+		</th:each>	
+	</th:each>
+	
+ 
+	 
 	chart.render();
-}
-</script>
+	 
+	}
+</script> 
 
 
 <body style="background-color:#f4f6f7">
@@ -40,13 +59,11 @@ window.onload = function () {
 	  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 	    <span class="navbar-toggler-icon"></span>
 	  </button>
-	
 	  <div class="collapse navbar-collapse" id="navbarSupportedContent">
 	    <ul class="navbar-nav mr-auto">
 	      <li class="nav-item active">
 	        <a class="nav-link" th:href="@{/}"><i class="fas fa-home"></i>&nbspHome <span class="sr-only">(current)</span></a>
 	      </li>
-	      
 	    </ul>
 	    <form th:action="@{/logout}" class="form-inline my-2 my-lg-0">
 	      <button class="btn btn-danger my-2 my-sm-0" type="submit"><i class="fas fa-sign-out-alt"></i>&nbspSair</button>
@@ -55,10 +72,32 @@ window.onload = function () {
 	</nav>	
 
 	<div class=container>
+		
+		<table class="table table-striped mt-3">
+			<tr>
+				<th>NOME</th>
+				<th>PRECO R$</th>
+				<th>CATEGORIA</th>
+				<th>DATA CADASTRO</th>
+			</tr>
+			<tr th:each="item: ${lista}">
+				<td th:text="${item.nome}"></td>
+				<td th:text="${#numbers.formatDecimal(item.preco, 2,2)}"></td>
+				<td th:text="${item.categoria}"></td>
+				<td th:text="${#calendars.format(item.dataCadastro,'dd MMMM yyyy - HH:mm:ss')}"></td>
+			</tr>
+		</table>
+		<hr>
+		
+		<!-- grafico -->
 		<div class="card mt-5 border-primary mb-5">
 			<div id="chartContainer" style="height: 300px; width: 100%;"></div>
 		</div>
+		 
+		
+		
 	</div>
+
 
 	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
