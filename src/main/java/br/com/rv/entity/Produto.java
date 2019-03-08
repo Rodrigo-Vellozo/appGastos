@@ -1,7 +1,7 @@
 package br.com.rv.entity;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,8 +10,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -36,9 +34,8 @@ public class Produto implements Serializable {
 	
 	@NotNull
 	private Double preco;
-	
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date dataCadastro = new Date();
+		
+	private LocalDateTime dataCadastro = LocalDateTime.now();
 	
 	@ManyToOne
 	@JoinColumn(name="id_usuario_fk")
@@ -49,7 +46,7 @@ public class Produto implements Serializable {
 	}
 
 	public Produto(Long id, @NotBlank @Size(min = 2, max = 50) String nome,
-			@NotBlank @Size(min = 2, max = 50) String categoria, @NotBlank Double preco, Date dataCadastro,
+			@NotBlank @Size(min = 2, max = 50) String categoria, @NotBlank Double preco, LocalDateTime dataCadastro,
 			Usuario usuario) {
 		super();
 		this.id = id;
@@ -99,11 +96,11 @@ public class Produto implements Serializable {
 		this.preco = preco;
 	}
 
-	public Date getDataCadastro() {
+	public LocalDateTime getDataCadastro() {
 		return dataCadastro;
 	}
 
-	public void setDataCadastro(Date dataCadastro) {
+	public void setDataCadastro(LocalDateTime dataCadastro) {
 		this.dataCadastro = dataCadastro;
 	}
 

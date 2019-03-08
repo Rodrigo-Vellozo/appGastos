@@ -11,46 +11,31 @@
 
  
 <script th:inline="javascript">
-	window.onload = function() {
-	 
-	var dps = [[]];
+/*<![CDATA[*/
+window.onload = function () {
 	var chart = new CanvasJS.Chart("chartContainer", {
-		animationEnabled: true,
-		exportEnabled: true,
-		title: {
-			text: "Simple Column Chart with Index Labels"
+		title:{
+			text: "Total das despesas"              
 		},
-		data: [{
-			type: "column", //change type to bar, line, area, pie, etc
-			//indexLabel: "{y}", //Shows y value on all Data Points
-			indexLabelFontColor: "#5A5757",
-			dataPoints: dps[0]
-		}]
+		data: [              
+		{
+			// Change type to "doughnut", "line", "splineArea","column",  etc.
+			type: "column",
+			dataPoints: [
+				
+				{ label: "Jan", y: [[${valores}]]  },
+				{ label: "Fev", y:  50 },
+				{ label: "Mar", y: 50 },
+				
+			]
+		}
+		]
 	});
-	 
-	var xValue;
-	var yValue;
-	var indexLabel;
-	
-	<th:each="dataPoints, iterStat: ${dataPointsList}" th:class="${iterStat.odd}? 'odd'">	
-		<th:each="dataPoint :${dataPoints}">
-			xValue = parseInt("${#aggregates.sum(dataPoint.preco)}");
-			yValue = parseFloat("${dataPoint.dataCadastro}");
-			indexLabel = "${dataPoint.indexLabel}";
-			dps[parseInt("${loop.index}")].push({
-				x : xValue,
-				y : yValue,
-				indexLabel : indexLabel
-			});		
-		</th:each>	
-	</th:each>
-	
- 
-	 
 	chart.render();
-	 
-	}
-</script> 
+}
+/*]]>*/
+</script>
+
 
 
 <body style="background-color:#f4f6f7">
@@ -66,13 +51,14 @@
 	      </li>
 	    </ul>
 	    <form th:action="@{/logout}" class="form-inline my-2 my-lg-0">
-	      <button class="btn btn-danger my-2 my-sm-0" type="submit"><i class="fas fa-sign-out-alt"></i>&nbspSair</button>
+	      <button class="btn btn-danger my-2 my-sm-0" type="submit"><i class="1fas fa-sign-out-alt"></i>&nbspSair</button>
 	    </form>
 	  </div>
 	</nav>	
 
 	<div class=container>
 		
+		<!-- 
 		<table class="table table-striped mt-3">
 			<tr>
 				<th>NOME</th>
@@ -84,18 +70,23 @@
 				<td th:text="${item.nome}"></td>
 				<td th:text="${#numbers.formatDecimal(item.preco, 2,2)}"></td>
 				<td th:text="${item.categoria}"></td>
-				<td th:text="${#calendars.format(item.dataCadastro,'dd MMMM yyyy - HH:mm:ss')}"></td>
+				<td th:text="${#temporals.format(item.dataCadastro,'dd MMMM yyyy - HH:mm:ss')}"></td>
 			</tr>
 		</table>
-		<hr>
-		
+		 -->
+
+
 		<!-- grafico -->
 		<div class="card mt-5 border-primary mb-5">
 			<div id="chartContainer" style="height: 300px; width: 100%;"></div>
 		</div>
-		 
-		
-		
+
+		<ul th:each="item:${gson}">
+			<li th:text="${item}">Item one</li>
+			<li>Item two</li>
+		</ul>
+
+
 	</div>
 
 

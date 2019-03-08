@@ -74,7 +74,7 @@
 						<td th:text="${item.nome}"></td>
 						<td th:text="${#numbers.formatDecimal(item.preco, 2,2)}"></td>
 						<td th:text="${item.categoria}"></td>
-						<td th:text="${#dates.format(item.dataCadastro,'dd MMMM yyyy - HH:mm:ss')}"> </td>
+						<td th:text="${#temporals.format(item.dataCadastro,'dd MMMM yyyy - HH:mm:ss')}"> </td>
 						<td> <a class="btn btn-danger" th:href="@{/usuario/{usuarioId}/produto/{produtoId}/excluir(usuarioId=${id},produtoId=${item.id})}"><i class="fas fa-trash"></i>&nbspExcluir</a></td>
 						<td> <a class="btn btn-warning" th:href="@{/chart/{categoria}/graficoTwo(categoria=${item.categoria})}"><i class="fas fa-chart-pie"></i></a></td>
 					</tr>
