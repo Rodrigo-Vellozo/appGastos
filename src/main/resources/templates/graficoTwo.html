@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-br">
 <head>
 <meta charset="utf-8">
 <title>Listagem por Categoria</title>
@@ -10,33 +10,43 @@
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
 
  
-<script th:inline="javascript">
-/*<![CDATA[*/
-window.onload = function () {
-	var chart = new CanvasJS.Chart("chartContainer", {
-		title:{
-			text: "Total das despesas"              
-		},
-		data: [              
-		{
-			// Change type to "doughnut", "line", "splineArea","column",  etc.
-			type: "column",
-			dataPoints: [
-				
-				{ label: "Jan", y: [[${valores}]]  },
-				{ label: "Fev", y:  50 },
-				{ label: "Mar", y: 50 },
-				
-			]
-		}
-		]
-	});
-	chart.render();
-}
-/*]]>*/
+<script type="text/javascript">
+	/*<![CDATA[*/
+		window.onload = function() {
+			 
+				var chart = new CanvasJS.Chart("chartContainer", {
+					theme: "light2", // "light1", "dark1", "dark2"
+					animationEnabled: true,
+					title: {
+						text: "Gasto mensal com [[${categoria}]]"
+					},
+					axisX: {
+						labelFontSize: 18
+					},
+					axisY: {
+						title: "Total",
+						suffix: " R$"
+					},
+					data: [{
+						type: "column",
+						indexLabel: "{mes}",
+						indexLabelFontSize: 18,
+						yValueFormatString: "#,##0.0#\"%\""
+					}]
+				});
+				 
+				function addData(data) {
+					console.log(data);
+					chart.options.data[0].dataPoints = data;
+					chart.render();
+				}
+				 
+				$.getJSON("http://localhost:8080/rest/chartTwo/[[${categoria}]]", addData);
+					 
+			}
+		
+	/*]]>*/
 </script>
-
-
 
 <body style="background-color:#f4f6f7">
 	<nav class="navbar navbar-expand-lg navbar-dark bg-info">
@@ -51,41 +61,17 @@ window.onload = function () {
 	      </li>
 	    </ul>
 	    <form th:action="@{/logout}" class="form-inline my-2 my-lg-0">
-	      <button class="btn btn-danger my-2 my-sm-0" type="submit"><i class="1fas fa-sign-out-alt"></i>&nbspSair</button>
+	      <button class="btn btn-danger my-2 my-sm-0" type="submit"><i class="fas fa-sign-out-alt"></i>&nbspSair</button>
 	    </form>
 	  </div>
 	</nav>	
 
 	<div class=container>
-		
-		<!-- 
-		<table class="table table-striped mt-3">
-			<tr>
-				<th>NOME</th>
-				<th>PRECO R$</th>
-				<th>CATEGORIA</th>
-				<th>DATA CADASTRO</th>
-			</tr>
-			<tr th:each="item: ${lista}">
-				<td th:text="${item.nome}"></td>
-				<td th:text="${#numbers.formatDecimal(item.preco, 2,2)}"></td>
-				<td th:text="${item.categoria}"></td>
-				<td th:text="${#temporals.format(item.dataCadastro,'dd MMMM yyyy - HH:mm:ss')}"></td>
-			</tr>
-		</table>
-		 -->
-
-
+	
 		<!-- grafico -->
 		<div class="card mt-5 border-primary mb-5">
 			<div id="chartContainer" style="height: 300px; width: 100%;"></div>
 		</div>
-
-		<ul th:each="item:${gson}">
-			<li th:text="${item}">Item one</li>
-			<li>Item two</li>
-		</ul>
-
 
 	</div>
 
@@ -93,6 +79,7 @@ window.onload = function () {
 	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.0/js/bootstrap.min.js" integrity="sha384-7aThvCh9TypR7fIc2HV4O/nFMVCBwyIUKL8XCtKE+8xgCgl/PQGuFsvShjr74PBp" crossorigin="anonymous"></script>	
+	<script src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script>
 	<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
 </body>
 </html>

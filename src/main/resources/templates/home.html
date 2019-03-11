@@ -9,8 +9,6 @@
 <!-- font awesome -->
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
 
-
-
 <body style="background-color:#f4f6f7">
 	<nav class="navbar navbar-expand-lg navbar-dark bg-info">
 		<h1 class="navbar-brand" th:text="${nome}">Nome do Usuario</h1>
@@ -74,7 +72,12 @@
 						<td th:text="${item.nome}"></td>
 						<td th:text="${#numbers.formatDecimal(item.preco, 2,2)}"></td>
 						<td th:text="${item.categoria}"></td>
+						<!-- 
 						<td th:text="${#temporals.format(item.dataCadastro,'dd MMMM yyyy - HH:mm:ss')}"> </td>
+						 -->
+						 
+						 <td th:text="${#temporals.format(item.dataCadastro,'MMMM - HH:mm:ss')}"> </td>
+						
 						<td> <a class="btn btn-danger" th:href="@{/usuario/{usuarioId}/produto/{produtoId}/excluir(usuarioId=${id},produtoId=${item.id})}"><i class="fas fa-trash"></i>&nbspExcluir</a></td>
 						<td> <a class="btn btn-warning" th:href="@{/chart/{categoria}/graficoTwo(categoria=${item.categoria})}"><i class="fas fa-chart-pie"></i></a></td>
 					</tr>
