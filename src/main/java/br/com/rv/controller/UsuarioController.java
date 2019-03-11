@@ -48,11 +48,16 @@ public class UsuarioController {
 	}
 
 	@RequestMapping(value ="/register", method=RequestMethod.POST)
-	public String registerPost(@Valid @ModelAttribute Usuario usuario, BindingResult result) {
+	public String registerPost(@Valid @ModelAttribute Usuario usuario, BindingResult result, Model model) {
 		usuario.setPassword(new BCryptPasswordEncoder().encode(usuario.getPassword()));
 		if (result.hasErrors()) {
 			return "register";
+		}else if (uRepository.findByUsername(usuario.getUsername())!=null) {
+			System.err.println("candango existente");
+			model.addAttribute("msg", "Email não disponível.");
+			return "register";
 		}
+		
 		uRepository.save(usuario);
 		return "redirect:login";
 	}

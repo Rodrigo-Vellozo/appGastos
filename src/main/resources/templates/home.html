@@ -72,13 +72,8 @@
 						<td th:text="${item.nome}"></td>
 						<td th:text="${#numbers.formatDecimal(item.preco, 2,2)}"></td>
 						<td th:text="${item.categoria}"></td>
-						<!-- 
 						<td th:text="${#temporals.format(item.dataCadastro,'dd MMMM yyyy - HH:mm:ss')}"> </td>
-						 -->
-						 
-						 <td th:text="${#temporals.format(item.dataCadastro,'MMMM - HH:mm:ss')}"> </td>
-						
-						<td> <a class="btn btn-danger" th:href="@{/usuario/{usuarioId}/produto/{produtoId}/excluir(usuarioId=${id},produtoId=${item.id})}"><i class="fas fa-trash"></i>&nbspExcluir</a></td>
+						<td> <a class="btn btn-danger" th:href="@{/usuario/{usuarioId}/produto/{produtoId}/excluir(usuarioId=${id},produtoId=${item.id})}"><i class="fas fa-trash"></i>&nbsp Excluir</a></td>
 						<td> <a class="btn btn-warning" th:href="@{/chart/{categoria}/graficoTwo(categoria=${item.categoria})}"><i class="fas fa-chart-pie"></i></a></td>
 					</tr>
 				</table>
@@ -106,7 +101,6 @@
 					<span th:if="${page.hasNext()}" class="page-item">
 						<a th:href="@{/(page=${page.number+1},size=${page.size},id=${id})}"	class="page-link">Próximo</a>
 					</span>
-				
 				</div><!-- end paginação -->
 				
 			</div><!-- end  column 2 (coluna da tabela) -->

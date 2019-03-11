@@ -23,8 +23,8 @@ public interface ProdutoRepository extends JpaRepository<Produto, Long> {
 	@Query(value="SELECT p.categoria, MONTHNAME(p.dataCadastro) AS mes, SUM(p.preco) FROM Produto p JOIN p.usuario u "
 				 + "WHERE u.id= :id AND p.categoria = :categoria "
 			     + "GROUP BY p.categoria, MONTHNAME(p.dataCadastro), YEAR(p.dataCadastro)")
-	String [][] getBro(@Param("id")Long id, @Param("categoria")String categoria);
-		
+	String [][] getChartTwo(@Param("id")Long id, @Param("categoria")String categoria);
+	
 }
 
 

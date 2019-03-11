@@ -21,12 +21,13 @@
 				<form action="#" th:action="@{/register}" th:object="${usuario}" method="post">
 					<input type="text" th:field="*{nome}" placeholder="insira seu nome" class="form-control mt-2">
 					<input type="email" th:field="*{username}" placeholder="insira seu email" class="form-control mt-2">
-					<input type="password" th:field="*{password}"	placeholder="insira sua senha" class="form-control mt-2">
+					<input type="password" th:field="*{password}"	placeholder="insira sua senha" class="form-control mt-2" maxlength="10">
 					<button type="submit" class="btn btn-success btn-lg mt-3 btn-block rounded-circle" th:text="Gravar"></button>
 					
 					<div class="alert alert-danger" role="alert" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
 					<div class="alert alert-danger" role="alert" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></div>
 					<div class="alert alert-danger" role="alert" th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}"></div>
+					<div class="alert alert-danger mt-1" role="alert" th:if="${msg}" th:text="${msg}" ></div>
 				</form>
 	
 			</div>

@@ -35,12 +35,13 @@ public class Usuario implements UserDetails, Serializable {
 	private String nome;
 	
 	@NotBlank
-	@Size(min=2, max=80)
+	@Size(min=8, max=100)
 	@Email(message="Insira um email válido!")
+	@Column(unique=true)
 	private String username;
 	
-	@NotNull
-  //@Size(min=6, max=8, message="A senha deve ter de 6 a 8 caracteres!")
+	@NotBlank
+    @Size(min=6, message="A senha deve ter no mínimo de 6 caracteres")
 	private String password;
 	
 	@OneToMany(mappedBy="usuario", cascade=CascadeType.ALL)

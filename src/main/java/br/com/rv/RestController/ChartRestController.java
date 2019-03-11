@@ -30,10 +30,13 @@ public class ChartRestController {
 	public String getDataPoints(Principal principal, @PathVariable("categoria")String categoria) {
 		Usuario usuario = uRepository.findByUsername(principal.getName()) ;
 		List<Chart>retorno = new ArrayList<>();
-		String[][] lista= pRepository.getBro(usuario.getId(), categoria);
+		String[][] lista= pRepository.getChartTwo(usuario.getId(), categoria);
+		
 		for (String[] strings : lista) {
+			
 			retorno.add(new Chart(strings[1], Double.parseDouble(strings[2])));
 		}
+
 		return new Gson().toJson(retorno);
 	}
 
