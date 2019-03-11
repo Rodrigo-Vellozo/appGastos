@@ -41,7 +41,8 @@ public class Usuario implements UserDetails, Serializable {
 	private String username;
 	
 	@NotBlank
-    @Size(min=6, message="A senha deve ter no mínimo de 6 caracteres")
+    @Size(min=6)
+//	@Column(length=60)
 	private String password;
 	
 	@OneToMany(mappedBy="usuario", cascade=CascadeType.ALL)

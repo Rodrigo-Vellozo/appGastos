@@ -82,7 +82,7 @@
 				<div class="pagination justify-content-center">
 				
 					<span th:if="${page.hasPrevious()}" class="page-item">
-						<a th:href="@{/(page=${page.number-1},size=${page.size},id=${id})}" class="page-link">Anterior</a>
+						<a th:href="@{/(page=${page.number-1},size=${page.size})}" class="page-link">Anterior</a>
 					</span>
 
 					<div th:if="${page.isEmpty()}" class="alert alert-warning" role="alert">
@@ -93,13 +93,13 @@
 						<span th:if="${!page.isEmpty()}">
 							<span th:if="${page.number == i}" class="page-link" style="background: #ccf">[[${i}+1]]</span>
 							<span th:unless="${page.number == i}">
-								<a th:href="@{/(page=${i},size=${page.size},id=${id})}" class="page-link">[[${i}+1]]</a>
+								<a th:href="@{/(page=${i},size=${page.size})}" class="page-link">[[${i}+1]]</a>
 							</span>
 						</span>
 					</th:block>
 
 					<span th:if="${page.hasNext()}" class="page-item">
-						<a th:href="@{/(page=${page.number+1},size=${page.size},id=${id})}"	class="page-link">Próximo</a>
+						<a th:href="@{/(page=${page.number+1},size=${page.size})}"	class="page-link">Próximo</a>
 					</span>
 				</div><!-- end paginação -->
 				
